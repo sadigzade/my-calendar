@@ -1,25 +1,15 @@
 <template>
   <div>
-    <div class="post" v-for="post in posts" :key="post.id">
-      <h2>{{ post.title }}</h2>
-      <p>{{ post.body }}</p>
-      <p>{{ $store.state.count }}</p>
-    </div>
+    <Calendar />
   </div>
 </template>
 
 <script>
+import Calendar from "./components/Calendar.vue";
 export default {
-  data() {
-    return {
-      posts: [],
-    };
-  },
-  async mounted() {
-    const res = await fetch("https://jsonplaceholder.typicode.com/posts?_limit=3");
-    const posts = await res.json();
-    console.log(posts);
-    this.posts = posts;
+  name: "app",
+  components: {
+    Calendar,
   },
 };
 </script>

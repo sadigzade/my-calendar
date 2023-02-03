@@ -1,0 +1,28 @@
+{
+  "events": [
+    {
+      "title": "All Day Event",
+      "start": "Tue Jan 31 2023 00:00:00 GMT+0300 (Москва, стандартное время)",
+      "end": "Wed Feb 01 2023 00:00:00 GMT+0300 (Москва, стандартное время)",
+      "allDay": true
+    },
+    {
+      "title": "Long Event",
+      "start": "Mon Feb 06 2023 00:00:00 GMT+0300 (Москва, стандартное время)",
+      "end": "Thu Feb 09 2023 00:00:00 GMT+0300 (Москва, стандартное время)",
+      "allDay": true
+    },
+    {
+      "title": "Conference",
+      "start": "Fri Feb 10 2023 00:00:00 GMT+0300 (Москва, стандартное время)",
+      "end": "Sun Feb 12 2023 00:00:00 GMT+0300 (Москва, стандартное время)",
+      "allDay": true
+    },
+    {
+      "title": "Click for Google",
+      "start": "Mon Feb 27 2023 00:00:00 GMT+0300 (Москва, стандартное время)",
+      "end": "Tue Feb 28 2023 00:00:00 GMT+0300 (Москва, стандартное время)",
+      "allDay": true
+    }
+  ]
+}
