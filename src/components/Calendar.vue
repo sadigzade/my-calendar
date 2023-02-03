@@ -4,69 +4,64 @@ import FullCalendar from "@fullcalendar/vue3";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import interactionPlugin from "@fullcalendar/interaction";
-import { mapActions, mapGetters } from "vuex";
+import { ref } from "vue";
+import { useStore } from "vuex";
+import { computed, onMounted } from "@vue/runtime-core";
 
 export default {
-  name: "Calendar",
-
   components: {
     FullCalendar,
   },
 
-  computed: { ...mapGetters(["EVENTS"]) },
-
-  data() {
-    return {
-      options: {
-        locale: "ru",
-        plugins: [dayGridPlugin, timeGridPlugin, interactionPlugin],
-        headerToolbar: {
-          left: "prev,next today",
-          center: "title",
-          right: "dayGridMonth,timeGridWeek,timeGridDay",
-        },
-        buttonText: {
-          today: "Сегодня",
-          month: "Месяц",
-          week: "Неделя",
-          day: "День",
-        },
-        select: this.handleDateSelect,
-        editable: true,
-        selectable: true,
-        selectMirror: true,
-        dayMaxEvents: true,
-        events: [],
+  setup() {
+    const store = useStore();
+    const events = computed(() => store.getters.getEvents);
+    const options = ref({
+      locale: "ru",
+      plugins: [dayGridPlugin, timeGridPlugin, interactionPlugin],
+      headerToolbar: {
+        left: "prev,next today",
+        center: "title",
+        right: "dayGridMonth,timeGridWeek,timeGridDay",
       },
-    };
-  },
+      buttonText: {
+        today: "Сегодня",
+        month: "Месяц",
+        week: "Неделя",
+        day: "День",
+      },
+      select: handleDateSelect,
+      editable: true,
+      selectable: true,
+      selectMirror: true,
+      dayMaxEvents: true,
+      events: [],
+    });
 
-  methods: {
-    ...mapActions(["GET_EVENTS_FROM_API"]),
-    handleDateSelect(selectInfo) {
+    function handleDateSelect(selectInfo) {
       const title = prompt("Пожалуйста, введите новое название для вашего события!");
-      // const calendarApi = selectInfo.view.calendar;
-      // calendarApi.unselect();
+
       if (title) {
-        this.$store.commit("ADD_EVENT", {
+        store.commit("addEvent", {
           title,
           start: selectInfo.start,
           end: selectInfo.end,
           allDay: selectInfo.allDay,
         });
       }
-    },
-    handleEvents() {
-      this.options.events = this.EVENTS;
-    },
-  },
+    }
 
-  async created() {
-    await this.GET_EVENTS_FROM_API();
-  },
+    function handleEvents() {
+      options.value.events = events;
+    }
 
-  mounted() {
-    this.GET_EVENTS_FROM_API().then(this.handleEvents);
+    onMounted(() => {
+      store.dispatch("getEventsFromApi").then(handleEvents);
+    });
+
+    return {
+      options,
+    };
   },
 };
 </script>

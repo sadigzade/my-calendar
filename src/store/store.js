@@ -7,15 +7,15 @@ const store = createStore({
     events: [],
   },
   mutations: {
-    SET_EVENTS_TO_STATE: (state, events) => {
+    setEventsToState: (state, events) => {
       state.events = events;
     },
-    ADD_EVENT: (state, event) => {
+    addEvent: (state, event) => {
       state.events.push(event);
     },
   },
   actions: {
-    async GET_EVENTS_FROM_API({ commit }) {
+    async getEventsFromApi({ commit }) {
       try {
         const events = await axios("http://localhost:3001/events", {
           method: "GET",
@@ -27,7 +27,7 @@ const store = createStore({
             end: convert(event.end),
           };
         });
-        commit("SET_EVENTS_TO_STATE", data);
+        commit("setEventsToState", data);
         return events;
       } catch (error) {
         console.log(error);
@@ -36,7 +36,7 @@ const store = createStore({
     },
   },
   getters: {
-    EVENTS: (state) => state.events,
+    getEvents: (state) => state.events,
   },
 });
 
