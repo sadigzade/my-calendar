@@ -13,11 +13,22 @@ const store = createStore({
     addEvent: (state, event) => {
       state.events.push(event);
     },
+    deleteEvent: (state, id) => {
+      state.events = state.events.filter((ev) => +ev.id !== +id);
+    },
+    saveEvent: (state, event) => {
+      state.events = state.events.map((ev) => {
+        if (+ev.id === +event.id) {
+          return event;
+        }
+        return ev;
+      });
+    },
   },
   actions: {
     async getEventsFromApi({ commit }) {
       try {
-        const events = await axios("http://localhost:3001/events", {
+        const events = await axios("http://localhost:3001/data", {
           method: "GET",
         });
         const data = events.data.map((event) => {
